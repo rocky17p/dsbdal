@@ -1,0 +1,38 @@
+ssh hadoop@10.10.15.178
+password:hadoop
+cd $HADOOP_HOME/sbin
+mkdir 31451
+cd 31451
+
+nano data.txt
+cat data.txt
+
+nano WordCount.java
+ls
+
+javac -classpath $(hadoop classpath) WordCount.java
+ls
+
+jar cf WordCount.jar WordCount*.class
+ls
+
+start-dfs.sh
+stop-dfs.sh
+start-dfs.sh
+
+start-yarn.sh
+jps
+
+hadoop dfsadmin -safemode leave
+
+hdfs mkdir hdfs://localhost:9000/31451
+hdfs mkdir hdfs://localhost:9000/31451/input
+
+hdfs put data.txt hdfs://localhost:9000/31451/input
+
+hdfs rm -r hdfs://localhost:9000/31451/output
+
+hadoop jar WordCount.jar WordCount hdfs://localhost:9000/31451/input hdfs://localhost:9000/31451/output
+
+hdfs ls hdfs://localhost:9000/31451/output
+hdfs cat hdfs://localhost:9000/31451/output/part-r-00000
