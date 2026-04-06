@@ -1,0 +1,63 @@
+✅ COMPLETE FLOW (INCLUDING JAVA FILE CREATION)
+ssh hadoop@10.10.15.238
+cd ~/31451
+🔹 1. Create Java file
+nano WeatherDataAverage.java
+
+👉 Paste your full Java code, then:
+
+CTRL + X
+Y
+ENTER
+🔹 2. Create input file
+nano input.txt
+
+👉 Paste data:
+
+51.75 1006.3 71.6
+54.74 1006.3 71.6
+50.59 1006.3 71.6
+51.67 1006.3 71.6
+65.67 1006.3 71.6
+55.37 1006.3 71.6
+49.26 1006.3 71.6
+55.44 1006.3 71.6
+64.05 1006.3 71.6
+68.77 1006.3 71.6
+
+Save:
+
+CTRL + X
+Y
+ENTER
+🔹 3. Restart Hadoop
+stop-dfs.sh
+stop-yarn.sh
+start-dfs.sh
+start-yarn.sh
+🔹 4. Check services
+jps
+🔹 5. Leave safe mode
+hdfs dfsadmin -safemode leave
+🔹 6. Clean HDFS
+hdfs dfs -rm -r /31451
+🔹 7. Create directories
+hdfs dfs -mkdir /31451
+hdfs dfs -mkdir /31451/input
+🔹 8. Upload input
+hdfs dfs -put input.txt /31451/input
+🔹 9. Compile Java
+javac -classpath $(hadoop classpath) WeatherDataAverage.java
+🔹 10. Create JAR
+jar cf WeatherDataAverage.jar WeatherDataAverage*.class
+🔹 11. Run job
+hadoop jar WeatherDataAverage.jar WeatherDataAverage /31451/input /31451/output
+🔹 12. If output exists error
+hdfs dfs -rm -r /31451/output
+
+Then run again:
+
+hadoop jar WeatherDataAverage.jar WeatherDataAverage /31451/input /31451/output
+🔹 13. View output
+hdfs dfs -ls /31451/output
+hdfs dfs -cat /31451/output/part-r-00000
