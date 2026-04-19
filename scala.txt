@@ -1,33 +1,71 @@
-🔹 Factorial (Scala)
-Code
+✅ 1. Word Count using Apache Spark (Scala)
+Steps
+
+Create input file
+
+nano input.txt
+
+→ Enter text data and save.
+
+Write Scala program
+
+nano word_count.scala
+
+Add code
+
+val data = sc.textFile("input.txt")
+
+val splitdata = data.flatMap(line => line.split(" "))
+
+val mapdata = splitdata.map(word => (word,1))
+
+val reducedata = mapdata.reduceByKey(_+_)
+
+reducedata.collect
+
+Start Spark Shell
+
+spark-shell
+
+Load the program
+
+:load word_count.scala
+Observe output
+→ Displays word frequencies as (word, count)
+✅ 2. Factorial using Scala
+Steps
+
+Create Scala file
+
+nano factorial.scala
+
+Write code
+
 def factorial(n: Int): Int = {
-  if (n == 0) 1
-  else n * factorial(n - 1)
+  if (n == 0) 1 else n * factorial(n - 1)
 }
 
 val num = 5
 println("Factorial = " + factorial(num))
-Steps to Run
-Open terminal
 
-Create file:
-
-nano factorial.scala
-Paste the code → Save (CTRL + O, Enter) → Exit (CTRL + X)
-
-Run using Spark shell:
+Run using Scala/Spark shell
 
 spark-shell
 
-Inside shell:
+Load file
 
 :load factorial.scala
+Output
+→ Displays factorial (e.g., 120)
+✅ 3. Bubble Sort using Scala
+Steps
 
-Output will be:
+Create file
 
-Factorial = 120
-🔹 Bubble Sort (Scala)
-Code
+nano bubblesort.scala
+
+Write code
+
 def bubbleSort(arr: Array[Int]): Array[Int] = {
   val n = arr.length
 
@@ -40,33 +78,24 @@ def bubbleSort(arr: Array[Int]): Array[Int] = {
       }
     }
   }
-
   arr
 }
 
 val arr = Array(5, 2, 9, 1, 3)
+
 val sorted = bubbleSort(arr)
 
 println("Sorted Array: " + sorted.mkString(", "))
-Steps to Run
-Open terminal
 
-Create file:
-
-nano bubblesort.scala
-Paste the code → Save → Exit
-
-Start Spark shell:
+Run Spark shell
 
 spark-shell
 
-Load file:
+Load file
 
 :load bubblesort.scala
-
-Output:
-
-Sorted Array: 1, 2, 3, 5, 9
+Output
+→ Displays sorted array
 
 
 
