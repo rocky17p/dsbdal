@@ -1,0 +1,31 @@
+# Start Hadoop (after every system restart)
+start-dfs.sh
+start-yarn.sh
+jps
+
+# Go to working directory
+cd ~
+mkdir 31451
+cd 31451
+
+# Create input file
+nano data.txt
+
+# Compile Java program
+javac -classpath `hadoop classpath` WordCount.java
+
+# Create JAR file
+jar cf WordCount.jar WordCount*.class
+
+# Create HDFS directories
+hdfs dfs -mkdir /31451
+hdfs dfs -mkdir /31451/input
+
+# Upload input file to HDFS
+hdfs dfs -put data.txt /31451/input
+
+# Run WordCount
+hadoop jar WordCount.jar WordCount /31451/input /31451/output
+
+# View output
+hdfs dfs -cat /31451/output/part-r-00000
