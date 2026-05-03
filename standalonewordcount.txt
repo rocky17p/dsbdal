@@ -19,6 +19,9 @@ javac -classpath `hadoop classpath` WordCount.java
 # Create JAR file
 jar cf WordCount.jar WordCount*.class
 
+
+hdfs dfsadmin -safemode leave
+
 # Create HDFS directories
 hdfs dfs -mkdir /31451
 hdfs dfs -mkdir /31451/input
