@@ -11,6 +11,8 @@ cd 31451
 # Create input file
 nano data.txt
 
+nano WordCount.java
+
 # Compile Java program
 javac -classpath `hadoop classpath` WordCount.java
 
