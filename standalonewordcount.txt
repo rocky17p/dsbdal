@@ -1,4 +1,10 @@
 # Start Hadoop (after every system restart)
+
+hdfs namenode -format
+
+(only if NameNode is failing to start)
+
+
 start-dfs.sh
 start-yarn.sh
 jps
