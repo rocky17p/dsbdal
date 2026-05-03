@@ -1,0 +1,5 @@
+val data = sc.textFile("input.txt")
+val splitdata = data.flatMap(line => line.split(" "))
+val mapdata = splitdata.map(word => (word,1))
+val reducedata = mapdata.reduceByKey(_+_)
+reducedata.collect().foreach(println)
