@@ -3,44 +3,37 @@ import java.util.StringTokenizer;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-
-import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.Text;
-
-import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.hadoop.mapreduce.Reducer;
-
+import org.apache.hadoop.io.*;
+import org.apache.hadoop.mapreduce.*;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 public class WordCount {
 
-    public static class TokenizerMapper 
-        extends Mapper<Object, Text, Text, IntWritable> {
+    // Mapper
+    public static class Map extends Mapper<Object, Text, Text, IntWritable> {
 
         private final static IntWritable one = new IntWritable(1);
         private Text word = new Text();
 
-        public void map(Object key, Text value, Context context) 
+        public void map(Object key, Text value, Context context)
                 throws IOException, InterruptedException {
 
-            StringTokenizer itr = new StringTokenizer(value.toString());
+            StringTokenizer st = new StringTokenizer(value.toString());
 
-            while (itr.hasMoreTokens()) {
-                word.set(itr.nextToken());
+            while (st.hasMoreTokens()) {
+                word.set(st.nextToken());
                 context.write(word, one);
             }
         }
     }
 
-    public static class IntSumReducer 
-        extends Reducer<Text, IntWritable, Text, IntWritable> {
+    // Reducer
+    public static class Reduce extends Reducer<Text, IntWritable, Text, IntWritable> {
 
         private IntWritable result = new IntWritable();
 
-        public void reduce(Text key, Iterable<IntWritable> values, 
-                           Context context) 
+        public void reduce(Text key, Iterable<IntWritable> values, Context context)
                 throws IOException, InterruptedException {
 
             int sum = 0;
@@ -54,15 +47,15 @@ public class WordCount {
         }
     }
 
+    // Main
     public static void main(String[] args) throws Exception {
 
         Configuration conf = new Configuration();
-
-        Job job = Job.getInstance(conf, "word count");
+        Job job = Job.getInstance(conf, "wordcount");
 
         job.setJarByClass(WordCount.class);
-        job.setMapperClass(TokenizerMapper.class);
-        job.setReducerClass(IntSumReducer.class);
+        job.setMapperClass(Map.class);
+        job.setReducerClass(Reduce.class);
 
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
