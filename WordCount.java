@@ -13,8 +13,8 @@ public class WordCount {
     // Mapper
     public static class Map extends Mapper<Object, Text, Text, IntWritable> {
 
-        private final static IntWritable one = new IntWritable(1);
-        private Text word = new Text();
+        IntWritable one = new IntWritable(1);
+        Text word = new Text();
 
         public void map(Object key, Text value, Context context)
                 throws IOException, InterruptedException {
@@ -31,7 +31,7 @@ public class WordCount {
     // Reducer
     public static class Reduce extends Reducer<Text, IntWritable, Text, IntWritable> {
 
-        private IntWritable result = new IntWritable();
+        IntWritable result = new IntWritable();
 
         public void reduce(Text key, Iterable<IntWritable> values, Context context)
                 throws IOException, InterruptedException {
