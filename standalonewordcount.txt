@@ -1,4 +1,5 @@
 # Start Hadoop (after every system restart)
+cd $HADOOP_HOME/sbin
 
 hdfs namenode -format
 
